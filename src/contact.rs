@@ -41,19 +41,33 @@ impl std::ops::Deref for Country {
     }
 }
 
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct ContactAuthInfoPasswordSwitch<'a> {
+    /// The &lt;pw&gt; tag under &lt;authInfo&gt;
+    #[serde(rename = "$value")]
+    pub password: Cow<'a, str>,
+
+    /// SWITCH specific extension: The value of the 'roid' attr on &lt;contact:pw&gt; tags
+    #[serde(rename = "roid")]
+    pub registry_official_id: Option<Cow<'a, str>>,
+}
+
 /// The &lt;authInfo&gt; tag for domain and contact transactions
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ContactAuthInfo<'a> {
     /// The &lt;pw&gt; tag under &lt;authInfo&gt;
     #[serde(rename = "contact:pw", alias = "pw")]
-    pub password: StringValue<'a>,
+    pub password: ContactAuthInfoPasswordSwitch<'a>,
 }
 
 impl<'a> ContactAuthInfo<'a> {
     /// Creates a ContactAuthInfo instance with the given password
-    pub fn new(password: &'a str) -> Self {
+    pub fn new(password: &'a str, roid: Option<&'a str>) -> Self {
         Self {
-            password: password.into(),
+            password: ContactAuthInfoPasswordSwitch {
+                password: password.into(),
+                registry_official_id: roid.map(|id| id.into())
+            },
         }
     }
 }

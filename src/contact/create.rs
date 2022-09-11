@@ -66,7 +66,7 @@ impl<'a> ContactCreate<'a> {
                 voice,
                 fax: None,
                 email: email.into(),
-                auth_info: ContactAuthInfo::new(auth_password),
+                auth_info: ContactAuthInfo::new(auth_password, None),
             },
         }
     }

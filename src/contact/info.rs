@@ -39,12 +39,12 @@ pub struct ContactInfo<'a> {
 }
 
 impl<'a> ContactInfo<'a> {
-    pub fn new(id: &'a str, auth_password: &'a str) -> ContactInfo<'a> {
+    pub fn new(id: &'a str, auth_password: &'a str, roid: Option<&'a str>) -> ContactInfo<'a> {
         Self {
             info: ContactInfoRequestData {
                 xmlns: XMLNS,
                 id: id.into(),
-                auth_info: ContactAuthInfo::new(auth_password),
+                auth_info: ContactAuthInfo::new(auth_password, roid),
             },
         }
     }
@@ -112,7 +112,7 @@ mod tests {
 
     #[test]
     fn command() {
-        let object = ContactInfo::new("eppdev-contact-3", "eppdev-387323");
+        let object = ContactInfo::new("eppdev-contact-3", "eppdev-387323", Some("switch-1"));
         assert_serialized("request/contact/info.xml", &object);
     }
 
@@ -171,7 +171,8 @@ mod tests {
             result.info_data.updated_at,
             Some(Utc.ymd(2021, 7, 23).and_hms(13, 9, 9))
         );
-        assert_eq!((*auth_info).password, "eppdev-387323".into());
+        assert_eq!(auth_info.password.password, "eppdev-387323".to_string());
+        assert_eq!(auth_info.password.registry_official_id.as_ref().unwrap(), &"switch-1".to_string());
         assert_eq!(object.tr_ids.client_tr_id.unwrap(), CLTRID.into());
         assert_eq!(object.tr_ids.server_tr_id, SVTRID.into());
     }

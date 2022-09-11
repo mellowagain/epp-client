@@ -26,7 +26,7 @@
                     <contact:voice>+33.47237942</contact:voice>
                     <contact:email>newemail@eppdev.net</contact:email>
                     <contact:authInfo>
-                        <contact:pw>eppdev-387323</contact:pw>
+                        <contact:pw roid="switch-1">eppdev-387323</contact:pw>
                     </contact:authInfo>
                 </contact:chg>
             </contact:update>

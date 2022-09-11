@@ -32,12 +32,13 @@ impl<'a> ContactUpdate<'a> {
         postal_info: PostalInfo<'a>,
         voice: Phone<'a>,
         auth_password: &'a str,
+        roid: Option<&'a str>
     ) {
         self.contact.change_info = Some(ContactChangeInfo {
             email: Some(email.into()),
             postal_info: Some(postal_info),
             voice: Some(voice),
-            auth_info: Some(ContactAuthInfo::new(auth_password)),
+            auth_info: Some(ContactAuthInfo::new(auth_password, roid)),
             fax: None,
         });
     }
@@ -122,7 +123,7 @@ mod tests {
         let postal_info = PostalInfo::new("loc", "John Doe", "Acme Widgets", address);
         let voice = Phone::new("+33.47237942");
 
-        object.set_info("newemail@eppdev.net", postal_info, voice, "eppdev-387323");
+        object.set_info("newemail@eppdev.net", postal_info, voice, "eppdev-387323", Some("switch-1"));
         let add_statuses = &[ObjectStatus {
             status: "clientTransferProhibited".into(),
         }];

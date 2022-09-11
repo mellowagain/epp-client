@@ -30,7 +30,7 @@
                 <contact:upID>SYSTEM</contact:upID>
                 <contact:upDate>2021-07-23T13:09:09.0Z</contact:upDate>
                 <contact:authInfo>
-                    <contact:pw>eppdev-387323</contact:pw>
+                    <contact:pw roid="switch-1">eppdev-387323</contact:pw>
                 </contact:authInfo>
             </contact:infData>
         </resData>
