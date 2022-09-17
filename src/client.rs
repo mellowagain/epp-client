@@ -172,6 +172,14 @@ impl<C: Connector> EppClient<C> {
     }
 }
 
+impl<C: Connector> Drop for EppClient<C> {
+    fn drop(&mut self) {
+        futures::executor::block_on(async move {
+            self.connection.shutdown().await.unwrap();
+        });
+    }
+}
+
 #[derive(Debug)]
 pub struct RequestData<'c, 'e, C, E> {
     pub(crate) command: &'c C,
